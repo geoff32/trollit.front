@@ -1,0 +1,24 @@
+$themes: (
+  default: (
+    light: #f8f9fa,
+    dark: #343a40,
+    bg-color: var(--dark),
+    text-color: var(--light),
+    input-bg-color: var(--light),
+    input-text-color: var(--dark),
+    logo-color: #764ABC,
+  )
+);
+
+@each $theme, $colors in $themes {
+    :root.#{$theme} {
+        @each $type, $color in $colors {
+            --#{$type}: #{$color};
+        }
+    }
+}
+
+:root {
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
