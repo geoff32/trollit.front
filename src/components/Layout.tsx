@@ -1,17 +1,15 @@
-import { Link, Outlet } from 'react-router-dom';
-import { useAppSelector } from '../app/hooks';
-import { selectUserStatus } from '../features/authentication/authenticationSlice';
+import { Outlet } from 'react-router-dom';
+import { NavBar } from './NavBar';
+import { Container } from './Container';
 
-export function Layout({ children }: { children?: React.ReactNode }) {
-  const status = useAppSelector(selectUserStatus);
-  
+export function Layout({ children }: { children?: React.ReactNode }) {  
   return (
-    <div>
-      <Link to="/">Accueil</Link>
-      {status === "not authenticated" && <Link to="/signin">Connexion</Link>}
-      {status === "authenticated" && <Link to="/signout">Déconnexion</Link>}
-      {children}
-      <Outlet />
-    </div>
+    <Container fluid>
+      <NavBar />
+      <Container fluid className="text-center">
+        {children}
+        <Outlet />
+      </Container>
+    </Container>
   )
 }

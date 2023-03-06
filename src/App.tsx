@@ -1,13 +1,13 @@
-import './App.css';
 import { SignIn } from './features/authentication/SignIn';
 import { Home } from './features/home/Home';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import './themes.scss';
-import { Layout } from './components';
 import { SignOut } from './features/authentication/SignOut';
+import { Container, Layout } from './components';
+import './themes.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const router = createBrowserRouter([
@@ -26,13 +26,11 @@ function App() {
       }]
     }
   ]);
-  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <RouterProvider router={router} />
-      </header>
-    </div>
+    <Container fluid>
+      <RouterProvider router={router} />
+    </Container>
   );
 }
 

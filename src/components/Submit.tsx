@@ -1,11 +1,10 @@
 import React from "react";
+import { Input as InputStrap, InputProps as InputStrapProps } from 'reactstrap';
 import styles from './Submit.module.scss';
 
-interface SubmitProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
+interface SubmitProps extends Omit<InputStrapProps, "type"> {
 }
 
-const Submit : React.FC<SubmitProps> = React.forwardRef<HTMLInputElement, SubmitProps>((props, ref) => {
-  return <input type="submit" className={styles.submit} ref={ref} {...props} />
-})
-
-export default Submit;
+export function Submit(props: SubmitProps) {
+  return <InputStrap type="submit" className={styles.submit} {...props} />
+}

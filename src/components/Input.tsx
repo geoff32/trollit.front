@@ -1,11 +1,10 @@
-import React from "react";
+import React from 'react';
+import { Input as InputStrap, InputProps as InputStrapProps } from 'reactstrap';
 import styles from './Input.module.scss';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputStrapProps {
 }
 
-const Input : React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  return <input className={styles.input} ref={ref} {...props} />
+export const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  return <InputStrap innerRef={ref} className={styles.input} {...props} />
 })
-
-export default Input;

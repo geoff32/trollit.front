@@ -18,7 +18,13 @@ $themes: (
     }
 }
 
-:root {
-  color: var(--text-color);
-  background-color: var(--bg-color);
+@mixin defaultColor {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+:root.theme {
+    &, body {
+        @include defaultColor;
+    }
 }

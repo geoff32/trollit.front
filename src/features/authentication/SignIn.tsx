@@ -1,9 +1,7 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectUserStatus, signInAsync } from './authenticationSlice';
 import { useForm } from "react-hook-form";
-import { Input, Submit, Loading } from '../../components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Submit, Loading, Form, FormInputLabel, Container } from '../../components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -33,16 +31,26 @@ export function SignIn() {
     return <Loading />
   }
 
+
   return (
-    <div>
-      <FontAwesomeIcon icon={faUser} size="4x" />
-      <form onSubmit={handleSubmit(onSignIn)}>
-        <div><Input type="text" autoComplete="username" {...register("username", { required: true })} /></div>
-        {errors.username && <span>L'identifiant est obligatoire</span>}
-        <div><Input type="password" autoComplete="current-password" {...register("password", { required: true })} /></div>
-        {errors.password && <span>Le mot de passe est obligatoire</span>}
+    <Container>
+      <Form onSubmit={handleSubmit(onSignIn)}>
+        <FormInputLabel 
+          label="Identifiant"
+          type="text"
+          autoComplete="username"
+          {...register("username", { required: "Identifiant obligatoire" })}
+          error={errors.username?.message}
+        />
+        <FormInputLabel 
+          label="Mot de passe"
+          type="password"
+          autoComplete="current-password"
+          {...register("password", { required: "Mot de passe obligatoire" })}
+          error={errors.password?.message}
+        />
         <Submit value="Se connecter" />
-      </form>
-    </div>
+      </Form>
+    </Container>
   )
 }
