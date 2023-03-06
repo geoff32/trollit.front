@@ -10,7 +10,7 @@ export function SignOut() {
 
   useEffect(() => {
     dispatch(signOutAsync());
-    navigate("/signin");
+    navigate("/signin", { replace: true });
   }, [dispatch, navigate])
   
   return <Loading />

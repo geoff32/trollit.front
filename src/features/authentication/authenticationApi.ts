@@ -8,6 +8,13 @@ export function fetchSignIn(user: { username: string, password: string }) {
 }
 
 // A mock function to mimic making an async request for data
+export function fetchValidate() {
+  return new Promise<{ user: User }>((resolve) =>
+    setTimeout(() => resolve({ user: { username: "bob-Le-troll" } }), 500)
+  );
+}
+
+// A mock function to mimic making an async request for data
 export function fetchSignOut() {
   return new Promise<void>((resolve) =>
     setTimeout(() => resolve(), 500)

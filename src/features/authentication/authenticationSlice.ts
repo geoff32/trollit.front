@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { fetchSignIn, fetchSignOut } from './authenticationApi';
+import { fetchSignIn, fetchSignOut, fetchValidate } from './authenticationApi';
 import { User } from './models/User';
 
 export interface AuthenticationState {
@@ -17,6 +17,15 @@ export const signInAsync = createAsyncThunk(
   async (user: { username: string, password: string}) => {
     const response = await fetchSignIn(user);
     // The value we return becomes the `fulfilled` action payload
+    return response.user;
+  }
+);
+
+export const validateAsync = createAsyncThunk(
+  'authentication/validate',
+  async () => {
+    const response = await fetchValidate();
+
     return response.user;
   }
 );
@@ -41,6 +50,16 @@ export const authenticationSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(signInAsync.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(validateAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(validateAsync.fulfilled, (state, action) => {
+        state.status = 'authenticated';
+        state.user = action.payload;
+      })
+      .addCase(validateAsync.rejected, (state) => {
         state.status = 'failed';
       })
       .addCase(signOutAsync.pending, (state) => {

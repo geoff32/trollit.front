@@ -23,7 +23,7 @@ export function SignIn() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, [status, navigate])
 
@@ -35,14 +35,14 @@ export function SignIn() {
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSignIn)}>
-        <FormInputLabel 
+        <FormInputLabel
           label="Identifiant"
           type="text"
           autoComplete="username"
           {...register("username", { required: "Identifiant obligatoire" })}
           error={errors.username?.message}
         />
-        <FormInputLabel 
+        <FormInputLabel
           label="Mot de passe"
           type="password"
           autoComplete="current-password"

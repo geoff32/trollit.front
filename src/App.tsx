@@ -8,6 +8,7 @@ import { SignOut } from './features/authentication/SignOut';
 import { Container, Layout } from './components';
 import './themes.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ValidateUser } from './features/authentication/components/ValidateUser';
 
 function App() {
   const router = createBrowserRouter([
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <Container fluid>
+      <ValidateUser />
       <RouterProvider router={router} />
     </Container>
   );
