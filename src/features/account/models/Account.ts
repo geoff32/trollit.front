@@ -1,6 +1,6 @@
 import { Troll } from ".";
 
-export interface User {
+export interface Account {
   username: string;
   troll: Troll;
 }

@@ -9,6 +9,7 @@ import { Container, Layout } from './components';
 import './themes.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ValidateUser } from './features/authentication/components/ValidateUser';
+import { AccountCreation } from './features/account/AccountCreation';
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,12 @@ function App() {
       }, {
         path: "signout",
         element: <SignOut />,
+      }, {
+        path: "account",
+        children: [{
+          path: "create",
+          element: <AccountCreation />
+        }]
       }]
     }
   ]);

@@ -2,8 +2,10 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectUserStatus, signInAsync } from './authenticationSlice';
 import { useForm } from "react-hook-form";
 import { Submit, Loading, Form, FormInputLabel, Container } from '../../components';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface AuthenticationInput {
   username: string;
@@ -13,7 +15,10 @@ interface AuthenticationInput {
 export function SignIn() {
   const status = useAppSelector(selectUserStatus);
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<AuthenticationInput>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<AuthenticationInput>({
+    mode: "onTouched",
+    resolver: yupResolver(authenticationFormat)
+  });
   const navigate = useNavigate();
 
   const onSignIn = async (user: AuthenticationInput) => {
@@ -23,7 +28,7 @@ export function SignIn() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      navigate("/", { replace: true });
+      navigate("/");
     }
   }, [status, navigate])
 
@@ -31,11 +36,11 @@ export function SignIn() {
     return <Loading />
   }
 
-
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSignIn)}>
         <FormInputLabel
+          id="username"
           label="Identifiant"
           type="text"
           autoComplete="username"
@@ -43,6 +48,7 @@ export function SignIn() {
           error={errors.username?.message}
         />
         <FormInputLabel
+          id="password"
           label="Mot de passe"
           type="password"
           autoComplete="current-password"
@@ -51,6 +57,14 @@ export function SignIn() {
         />
         <Submit value="Se connecter" />
       </Form>
+      <Link to="/account/create">Créer un compte</Link>
     </Container>
   )
 }
+
+const authenticationFormat = Yup.object().shape({
+  username: Yup.string()
+    .required("Identifiant obligatoire"),
+  password: Yup.string()
+    .required("Mot de passe obligatoire")
+});

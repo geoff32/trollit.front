@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { fetchSignIn, fetchSignOut, fetchValidate } from './authenticationApi';
-import { User } from './models/User';
+import { User } from './models';
 
 export interface AuthenticationState {
   user?: User;
@@ -14,66 +14,70 @@ const initialState: AuthenticationState = {
 
 export const signInAsync = createAsyncThunk(
   'authentication/signIn',
-  async (user: { username: string, password: string}) => {
+  async (user: { username: string, password: string }, { dispatch }) => {
     const response = await fetchSignIn(user);
-    // The value we return becomes the `fulfilled` action payload
-    return response.user;
+    dispatch(authenticate(response.user));
   }
 );
 
 export const validateAsync = createAsyncThunk(
   'authentication/validate',
-  async () => {
+  async (_, { dispatch }) => {
     const response = await fetchValidate();
 
-    return response.user;
+    dispatch(authenticate(response.user));
   }
 );
 
 export const signOutAsync = createAsyncThunk(
   'authentication/signOut',
-  async () => await fetchSignOut()
+  async (_, { dispatch }) => {
+    await fetchSignOut();
+
+    dispatch(disauthenticate());
+  }
 );
 
 export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
   reducers: {
+    authenticate: (state, action: PayloadAction<User>) => {
+      state.status = "authenticated";
+      state.user = action.payload;
+    },
+    disauthenticate: (state) => {
+      state.status = "not authenticated";
+      state.user = undefined;
+    }
   },
   extraReducers: (builder) => {
     builder
+      // signin
       .addCase(signInAsync.pending, (state) => {
         state.status = 'loading';
-      })
-      .addCase(signInAsync.fulfilled, (state, action) => {
-        state.status = 'authenticated';
-        state.user = action.payload;
       })
       .addCase(signInAsync.rejected, (state) => {
         state.status = 'failed';
       })
+      // validate
       .addCase(validateAsync.pending, (state) => {
         state.status = 'loading';
-      })
-      .addCase(validateAsync.fulfilled, (state, action) => {
-        state.status = 'authenticated';
-        state.user = action.payload;
       })
       .addCase(validateAsync.rejected, (state) => {
         state.status = 'failed';
       })
+      //signout
       .addCase(signOutAsync.pending, (state) => {
         state.status = 'loading';
-      })
-      .addCase(signOutAsync.fulfilled, (state, action) => {
-        state.user = undefined;
-        state.status = 'not authenticated';
       })
       .addCase(signOutAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },
 });
+
+export const { authenticate, disauthenticate } = authenticationSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
