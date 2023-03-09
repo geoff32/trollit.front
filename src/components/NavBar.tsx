@@ -11,13 +11,13 @@ export function NavBar() {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <Navbar dark className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+    <Navbar dark className="text-nowrap navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
       <NavbarBrand tag={Link} to="/"><FontAwesomeIcon icon={faScrewdriverWrench} className="me-2" /> Troll IT</NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={isOpen} navbar className="text-end">
         <Nav navbar className="me-auto">
           <NavItem>
-            <NavLink tag={Link} to="/">Accueil</NavLink>
+            <NavLink tag={Link} to="/dashboard">Tableau de bord</NavLink>
           </NavItem>
         </Nav>
         <NavUser />

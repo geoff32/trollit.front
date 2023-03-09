@@ -9,7 +9,7 @@ export interface AuthenticationState {
 }
 
 const initialState: AuthenticationState = {
-  status: 'not authenticated',
+  status: 'loading',
 };
 
 export const signInAsync = createAsyncThunk(
@@ -56,16 +56,20 @@ export const authenticationSlice = createSlice({
       // signin
       .addCase(signInAsync.pending, (state) => {
         state.status = 'loading';
+        state.user = undefined;
       })
       .addCase(signInAsync.rejected, (state) => {
         state.status = 'failed';
+        state.user = undefined;
       })
       // validate
       .addCase(validateAsync.pending, (state) => {
         state.status = 'loading';
+        state.user = undefined;
       })
       .addCase(validateAsync.rejected, (state) => {
         state.status = 'failed';
+        state.user = undefined;
       })
       //signout
       .addCase(signOutAsync.pending, (state) => {

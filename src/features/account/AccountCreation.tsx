@@ -3,10 +3,10 @@ import { Container, Form, FormInputLabel, Loading, Submit } from "../../componen
 import { createAccountAsync, resetAccount, selectAccountStatus } from "./accountSlice";
 import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
-import { Navigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { selectUserStatus } from "../authentication/authenticationSlice";
+import { useNavigate } from "react-router-dom";
 
 interface AccountCreationInput {
   username: string;
@@ -20,6 +20,7 @@ export function AccountCreation() {
   const authenticationStatus = useAppSelector(selectUserStatus);
   const status = useAppSelector(selectAccountStatus);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<AccountCreationInput>({
     mode: "onTouched",
@@ -30,6 +31,7 @@ export function AccountCreation() {
     const { confirmPassword, ...createAccount } = account;
     await dispatch(createAccountAsync(createAccount));
     reset();
+    navigate("/dashboard");
   }
 
   useEffect(() => {
@@ -37,10 +39,10 @@ export function AccountCreation() {
   }, [dispatch])
 
   if (authenticationStatus === "authenticated") {
-    return <Navigate to="/" />
+    return <span>Compte déjà existant!</span>
   }
 
-  if (status === "loading") {
+  if (authenticationStatus === "loading" || status === "loading") {
     return <Loading />
   }
 

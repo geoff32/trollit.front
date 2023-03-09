@@ -2,8 +2,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectUserStatus, signInAsync } from './authenticationSlice';
 import { useForm } from "react-hook-form";
 import { Submit, Loading, Form, FormInputLabel, Container } from '../../components';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -19,20 +18,17 @@ export function SignIn() {
     mode: "onTouched",
     resolver: yupResolver(authenticationFormat)
   });
-  const navigate = useNavigate();
 
   const onSignIn = async (user: AuthenticationInput) => {
     await dispatch(signInAsync(user));
     reset();
   }
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      navigate("/");
-    }
-  }, [status, navigate])
+  if (status === "authenticated") {
+    return <Navigate to="/dashboard" replace />
+  }
 
-  if (status === "loading" || status === "authenticated") {
+  if (status === "loading") {
     return <Loading />
   }
 
