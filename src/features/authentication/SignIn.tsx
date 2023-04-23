@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 interface AuthenticationInput {
-  username: string;
+  userName: string;
   password: string;
 }
 
@@ -36,12 +36,12 @@ export function SignIn() {
     <Container>
       <Form onSubmit={handleSubmit(onSignIn)}>
         <FormInputLabel
-          id="username"
+          id="userName"
           label="Identifiant"
           type="text"
           autoComplete="username"
-          {...register("username", { required: "Identifiant obligatoire" })}
-          error={errors.username?.message}
+          {...register("userName", { required: "Identifiant obligatoire" })}
+          error={errors.userName?.message}
         />
         <FormInputLabel
           id="password"
@@ -59,7 +59,7 @@ export function SignIn() {
 }
 
 const authenticationFormat = Yup.object().shape({
-  username: Yup.string()
+  userName: Yup.string()
     .required("Identifiant obligatoire"),
   password: Yup.string()
     .required("Mot de passe obligatoire")

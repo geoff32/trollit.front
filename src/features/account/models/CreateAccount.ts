@@ -1,5 +1,5 @@
 export interface CreateAccount {
-  username: string;
+  userName: string;
   password: string;
   trollId: number;
   token: string;

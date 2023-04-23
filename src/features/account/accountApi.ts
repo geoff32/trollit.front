@@ -1,8 +1,14 @@
 import { CreateAccount, Account } from "./models";
+import axios from 'axios';
 
-// A mock function to mimic making an async request for data
-export function fetchCreateAccount(account: CreateAccount) {
-  return new Promise<{ account: Account }>((resolve) =>
-    setTimeout(() => resolve({ account: { username: account.username, troll: { id: account.trollId, name: "Troll" } } }), 500)
-  );
+export async function fetchCreateAccount(account: CreateAccount) {
+  var result = await axios.post("/api/account", account);
+
+  return { account: result.data } as { account: Account };
+}
+
+export async function fetchSignIn(user: { userName: string, password: string }) {
+  var result = await axios.post("/api/signIn", user);
+
+  return { account: result.data } as { account: Account };
 }

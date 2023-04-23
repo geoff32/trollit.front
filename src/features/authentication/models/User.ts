@@ -1,6 +1,6 @@
 import { Troll } from ".";
 
 export interface User {
-  username: string;
+  userName: string;
   troll: Troll;
 }

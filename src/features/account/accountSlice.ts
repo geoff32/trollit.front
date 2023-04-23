@@ -14,9 +14,9 @@ const initialState: AccountState = {
 export const createAccountAsync = createAsyncThunk(
   'account/createAccount',
   async (account: CreateAccount, { dispatch }) => {
-    const { account: { username, troll } } = await fetchCreateAccount(account);
+    const { account: { userName, troll } } = await fetchCreateAccount(account);
 
-    dispatch(authenticate({ username, troll }));
+    dispatch(authenticate({ userName, troll }));
   }
 );
 

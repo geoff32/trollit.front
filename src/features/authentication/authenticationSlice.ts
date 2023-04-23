@@ -14,7 +14,7 @@ const initialState: AuthenticationState = {
 
 export const signInAsync = createAsyncThunk(
   'authentication/signIn',
-  async (user: { username: string, password: string }, { dispatch }) => {
+  async (user: { userName: string, password: string }, { dispatch }) => {
     const response = await fetchSignIn(user);
     dispatch(authenticate(response.user));
   }

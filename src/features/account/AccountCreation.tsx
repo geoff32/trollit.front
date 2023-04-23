@@ -9,7 +9,7 @@ import { selectUserStatus } from "../authentication/authenticationSlice";
 import { useNavigate } from "react-router-dom";
 
 interface AccountCreationInput {
-  username: string;
+  userName: string;
   password: string;
   confirmPassword: string;
   trollId: number;
@@ -50,12 +50,12 @@ export function AccountCreation() {
     <Container>
       <Form onSubmit={handleSubmit(onCreateAccount)}>
         <FormInputLabel
-          id="username"
+          id="userName"
           label="Identifiant"
           type="text"
           autoComplete="username"
-          {...register("username")}
-          error={errors.username?.message}
+          {...register("userName")}
+          error={errors.userName?.message}
         />
         <FormInputLabel
           id="password"
@@ -94,7 +94,7 @@ export function AccountCreation() {
 }
 
 const accountCreationFormat = Yup.object().shape({
-  username: Yup.string()
+  userName: Yup.string()
     .required("Identifiant obligatoire"),
   password: Yup.string()
     .required("Mot de passe obligatoire")
