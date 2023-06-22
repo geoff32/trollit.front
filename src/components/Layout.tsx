@@ -4,9 +4,9 @@ import { Container } from './Container';
 
 export function Layout({ children }: { children?: React.ReactNode }) {  
   return (
-    <Container fluid>
+    <Container>
       <NavBar />
-      <Container fluid className="text-center">
+      <Container className="text-center">
         {children}
         <Outlet />
       </Container>

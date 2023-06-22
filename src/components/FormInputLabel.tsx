@@ -8,8 +8,8 @@ interface FormInputLabelProps extends Omit<InputProps, "valid" | "invalid"> {
   error?: string;
 }
 
-export const FormInputLabel: React.FC<FormInputLabelProps> =
-  React.forwardRef<InputProps, FormInputLabelProps>((props, ref) => {
+export const FormInputLabel =
+  React.forwardRef<HTMLInputElement, FormInputLabelProps>((props, ref) => {
     const { id, placeholder, label, error, ...inputProps } = props;
     
     return (
