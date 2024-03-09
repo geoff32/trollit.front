@@ -1,11 +1,10 @@
 import { faSignIn, faSignOut } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { NavbarText, NavLink } from "reactstrap";
 import { useAppSelector } from "../app/hooks";
 import { selectUser, selectUserStatus } from "../features/authentication/authenticationSlice";
 import { Troll } from "../features/authentication/models";
-import { Container } from "./Container";
+import { Container, Link } from ".";
 
 function NavLoggedUser({ troll: { id: trollId, name: trollName } }: { troll: Troll }) {
   return (

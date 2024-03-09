@@ -4,6 +4,6 @@ export * from "./Form";
 export * from "./FormInputLabel";
 export * from "./Input";
 export * from "./Layout";
+export * from "./Link";
 export * from "./Loading";
 export * from "./Protected";
-export * from "./Submit";

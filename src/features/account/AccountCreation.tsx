@@ -1,12 +1,13 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Container, Form, FormInputLabel, Loading, Submit } from "../../components";
-import { createAccountAsync, resetAccount, selectAccountStatus } from "./accountSlice";
+import { Button, Container, Form, FormInputLabel, Loading } from "../../components";
+import { createAccountAsync, resetAccount, selectAccount } from "./accountSlice";
 import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { selectUserStatus } from "../authentication/authenticationSlice";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { Alert } from "reactstrap";
 
 interface AccountCreationInput {
   userName: string;
@@ -18,11 +19,10 @@ interface AccountCreationInput {
 
 export function AccountCreation() {
   const authenticationStatus = useAppSelector(selectUserStatus);
-  const status = useAppSelector(selectAccountStatus);
+  const { status, error } = useAppSelector(selectAccount);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<AccountCreationInput>({
+  const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<AccountCreationInput>({
     mode: "onTouched",
     resolver: yupResolver(accountCreationFormat)
   });
@@ -30,24 +30,29 @@ export function AccountCreation() {
   const onCreateAccount = async (account: AccountCreationInput) => {
     const { confirmPassword, ...createAccount } = account;
     await dispatch(createAccountAsync(createAccount));
-    reset();
-    navigate("/dashboard");
   }
 
   useEffect(() => {
     dispatch(resetAccount());
-  }, [dispatch])
+  }, [dispatch]);
+
+  if (status === "created") {
+    return <Navigate to="/dashboard" replace />
+  }
 
   if (authenticationStatus === "authenticated") {
     return <span>Compte déjà existant!</span>
   }
 
-  if (authenticationStatus === "loading" || status === "loading") {
+  if (authenticationStatus === "loading") {
     return <Loading />
   }
 
+  const isPending = isSubmitting || status === "submitting";
+
   return (
     <Container>
+      {status === "failed" && <Alert color="danger">{error || "Une erreur s'est produite"}</Alert>}
       <Form onSubmit={handleSubmit(onCreateAccount)}>
         <FormInputLabel
           id="userName"
@@ -56,6 +61,7 @@ export function AccountCreation() {
           autoComplete="username"
           {...register("userName")}
           error={errors.userName?.message}
+          disabled={isPending}
         />
         <FormInputLabel
           id="password"
@@ -64,6 +70,7 @@ export function AccountCreation() {
           autoComplete="new-password"
           {...register("password")}
           error={errors.password?.message}
+          disabled={isPending}
         />
         <FormInputLabel
           id="confirmPassword"
@@ -72,6 +79,7 @@ export function AccountCreation() {
           autoComplete="new-password"
           {...register("confirmPassword")}
           error={errors.confirmPassword?.message}
+          disabled={isPending}
         />
         <FormInputLabel
           id="trollId"
@@ -79,6 +87,7 @@ export function AccountCreation() {
           type="text"
           {...register("trollId")}
           error={errors.trollId?.message}
+          disabled={isPending}
         />
         <FormInputLabel
           id="token"
@@ -86,8 +95,9 @@ export function AccountCreation() {
           type="text"
           {...register("token")}
           error={errors.token?.message}
+          disabled={isPending}
         />
-        <Submit value="Créer son compte" />
+        <Button loading={isPending}>Créer son compte</Button>
       </Form>
     </Container>
   )

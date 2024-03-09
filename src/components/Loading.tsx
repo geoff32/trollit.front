@@ -1,14 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import styles from './Loading.module.scss';
+import { Spinner, SpinnerProps } from 'reactstrap';
 
-interface LoadingProps {
+interface LoadingProps extends SpinnerProps {
 }
 
 export function Loading(props: LoadingProps) {
-  return (
-    <div className={styles.spinner}>
-      <FontAwesomeIcon icon={faCircleNotch} spin />
-    </div>
-  )
+  return <Spinner {...props} />
 }

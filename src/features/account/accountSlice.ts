@@ -5,7 +5,8 @@ import { fetchCreateAccount } from './accountApi';
 import { CreateAccount } from './models';
 
 export interface AccountState {
-  status?: 'created' | 'loading' | 'failed';
+  status?: 'created' | 'submitting' | 'failed';
+  error?: string;
 }
 
 const initialState: AccountState = {
@@ -32,12 +33,13 @@ export const accountSlice = createSlice({
     builder
       // createAccount
       .addCase(createAccountAsync.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'submitting';
       })
       .addCase(createAccountAsync.fulfilled, (state, action) => {
         state.status = 'created';
       })
-      .addCase(createAccountAsync.rejected, (state) => {
+      .addCase(createAccountAsync.rejected, (state, { error }) => {
+        state.error = error.message;
         state.status = 'failed';
       });
   },
@@ -48,6 +50,6 @@ export const { resetAccount } = accountSlice.actions;
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectAccountStatus = (state: RootState) => state.account.status;
+export const selectAccount = (state: RootState) => state.account;
 
 export default accountSlice.reducer;

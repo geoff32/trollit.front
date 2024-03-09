@@ -1,9 +1,9 @@
 import { faScrewdriverWrench } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from "reactstrap";
 import { NavUser } from "./NavUser";
+import { Link } from ".";
 
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);

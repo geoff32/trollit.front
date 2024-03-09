@@ -1,10 +1,10 @@
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { selectUserStatus, signInAsync } from './authenticationSlice';
 import { useForm } from "react-hook-form";
-import { Submit, Loading, Form, FormInputLabel, Container } from '../../components';
-import { Link, Navigate } from 'react-router-dom';
+import { Form, FormInputLabel, Container, Button, Link } from '../../components';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Navigate } from 'react-router-dom';
 
 interface AuthenticationInput {
   userName: string;
@@ -14,7 +14,7 @@ interface AuthenticationInput {
 export function SignIn() {
   const status = useAppSelector(selectUserStatus);
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<AuthenticationInput>({
+  const { register, handleSubmit, reset, formState: { isSubmitting, errors } } = useForm<AuthenticationInput>({
     mode: "onTouched",
     resolver: yupResolver(authenticationFormat)
   });
@@ -27,10 +27,8 @@ export function SignIn() {
   if (status === "authenticated") {
     return <Navigate to="/dashboard" replace />
   }
-
-  if (status === "loading") {
-    return <Loading />
-  }
+  
+  const isPending = isSubmitting || status === "loading";
 
   return (
     <Container>
@@ -42,6 +40,7 @@ export function SignIn() {
           autoComplete="username"
           {...register("userName", { required: "Identifiant obligatoire" })}
           error={errors.userName?.message}
+          disabled={isPending}
         />
         <FormInputLabel
           id="password"
@@ -50,10 +49,11 @@ export function SignIn() {
           autoComplete="current-password"
           {...register("password", { required: "Mot de passe obligatoire" })}
           error={errors.password?.message}
+          disabled={isPending}
         />
-        <Submit value="Se connecter" />
+        <Button loading={isPending}>Se connecter</Button>
       </Form>
-      <Link to="/account/create">Créer un compte</Link>
+      <Link to="/account/create" disabled={isPending}>Créer un compte</Link>
     </Container>
   )
 }
