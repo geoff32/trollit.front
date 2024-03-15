@@ -14,14 +14,13 @@ interface AuthenticationInput {
 export function SignIn() {
   const status = useAppSelector(selectUserStatus);
   const dispatch = useAppDispatch();
-  const { register, handleSubmit, reset, formState: { isSubmitting, errors } } = useForm<AuthenticationInput>({
+  const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<AuthenticationInput>({
     mode: "onTouched",
     resolver: yupResolver(authenticationFormat)
   });
 
   const onSignIn = async (user: AuthenticationInput) => {
     await dispatch(signInAsync(user));
-    reset();
   }
 
   if (status === "authenticated") {

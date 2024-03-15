@@ -2,15 +2,15 @@ import { User } from "./models";
 import axios from 'axios';
 
 export async function fetchSignIn(user: { userName: string, password: string }) {
-  var result = await axios.post("/api/account/signin", user);
+  var result = await axios.post<User>("/api/account/signin", user);
 
-  return { user: result.data } as { user: User };
+  return { user: result.data };
 }
 
 export async function fetchValidate() {
-  var result = await axios.post("/api/account/validate");
+  var result = await axios.post<User>("/api/account/validate");
 
-  return { user: result.data } as { user: User };
+  return { user: result.data };
 }
 
 export async function fetchSignOut() {

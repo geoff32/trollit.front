@@ -6,7 +6,6 @@ import { CreateAccount } from './models';
 
 export interface AccountState {
   status?: 'created' | 'submitting' | 'failed';
-  error?: string;
 }
 
 const initialState: AccountState = {
@@ -35,11 +34,10 @@ export const accountSlice = createSlice({
       .addCase(createAccountAsync.pending, (state) => {
         state.status = 'submitting';
       })
-      .addCase(createAccountAsync.fulfilled, (state, action) => {
+      .addCase(createAccountAsync.fulfilled, (state) => {
         state.status = 'created';
       })
-      .addCase(createAccountAsync.rejected, (state, { error }) => {
-        state.error = error.message;
+      .addCase(createAccountAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },

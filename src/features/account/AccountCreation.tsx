@@ -7,7 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { selectUserStatus } from "../authentication/authenticationSlice";
 import { Navigate } from "react-router-dom";
-import { Alert } from "reactstrap";
 
 interface AccountCreationInput {
   userName: string;
@@ -19,7 +18,7 @@ interface AccountCreationInput {
 
 export function AccountCreation() {
   const authenticationStatus = useAppSelector(selectUserStatus);
-  const { status, error } = useAppSelector(selectAccount);
+  const { status } = useAppSelector(selectAccount);
   const dispatch = useAppDispatch();
 
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<AccountCreationInput>({
@@ -52,7 +51,6 @@ export function AccountCreation() {
 
   return (
     <Container>
-      {status === "failed" && <Alert color="danger">{error || "Une erreur s'est produite"}</Alert>}
       <Form onSubmit={handleSubmit(onCreateAccount)}>
         <FormInputLabel
           id="userName"
