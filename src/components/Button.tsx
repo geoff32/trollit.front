@@ -6,7 +6,7 @@ interface ButtonProps extends ButtonStrapProps {
   loading?: boolean;
 }
 
-export function Button({loading, disabled, children, ...props}: ButtonProps) {
+export function Button({loading, disabled, children, ...props}: Readonly<ButtonProps>) {
   return (
     <ButtonStrap disabled={disabled || loading} {...props}>
       {children}

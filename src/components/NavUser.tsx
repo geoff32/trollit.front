@@ -6,7 +6,7 @@ import { selectUser, selectUserStatus } from "../features/authentication/authent
 import { Troll } from "../features/authentication/models";
 import { Container, Link } from ".";
 
-function NavLoggedUser({ troll: { id: trollId, name: trollName } }: { troll: Troll }) {
+function NavLoggedUser({ troll: { id: trollId, name: trollName } }: Readonly<{ troll: Troll }>) {
   return (
     <Container>
       <NavbarText className="d-inline-block">{trollName} ({trollId})</NavbarText>

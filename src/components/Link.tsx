@@ -5,7 +5,7 @@ interface LinkProps extends RouterLinkProps {
   disabled?: boolean;
 }
 
-export function Link({disabled, ...props}: LinkProps) {
+export function Link({disabled, ...props}: Readonly<LinkProps>) {
   if (disabled) {
     const { className, children } = props;
     

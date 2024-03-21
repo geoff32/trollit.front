@@ -14,7 +14,7 @@ export default function AxiosErrorDispatcher() {
   }, [dispatch, location]);
 
   useEffect(() => {
-    var interceptor = axios.interceptors.response.use(function (response) {
+    const interceptor = axios.interceptors.response.use(function (response) {
       return response;
     }, function (error) {
 
