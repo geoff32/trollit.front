@@ -16,7 +16,7 @@ export default function ErrorContainer() {
   )
 }
 
-function ErrorAlert(error: { id: string, title: string, detail: string }) {
+function ErrorAlert(error: Readonly<{ id: string, title: string, detail: string }>) {
   const [remaining, setRemaining] = useState(100);
   const duration = 5000;
   const refresh = 200;

@@ -4,7 +4,7 @@ import { Container } from './Container';
 import ErrorContainer from '../errors/components/ErrorContainer';
 import AxiosErrorDispatcher from '../errors/components/AxiosErrorDispatcher';
 
-export function Layout({ children }: { children?: React.ReactNode }) {
+export function Layout({ children }: Readonly<{ children?: React.ReactNode }>) {
   return (
     <Container>
       <NavBar />
